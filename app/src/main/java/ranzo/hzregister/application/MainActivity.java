@@ -43,7 +43,7 @@ Activity implements JsonDownloader.OnTaskCompleted, ValidationListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
-		JsonDownloader download = new JsonDownloader(this, this);
+		JsonDownloader download = new JsonDownloader(MainActivity.this, this);
 		download.execute();
 		validator = new Validator(this);
 		validator.setValidationListener(this);
