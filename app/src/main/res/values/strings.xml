@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">HZRegister</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="estado">
+        <item>MG</item>
+        <item>SP</item>
+    </string-array>
+    <string-array name="gender">
+        <item>M</item>
+        <item>F</item>
+    </string-array>
+
+    <string name="full_name">Full Name</string>
+    <string name="empty_input">Required</string>
+    <string name="invalid">Invalid</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="dialog_message">Loading</string>
+
+
+</resources>
