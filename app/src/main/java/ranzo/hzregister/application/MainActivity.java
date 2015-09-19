@@ -22,13 +22,14 @@ import butterknife.ButterKnife;
 import ranzo.hzregister.R;
 import ranzo.hzregister.database.DataBase;
 import ranzo.hzregister.database.UserDao;
+import ranzo.hzregister.factory.Factory;
 import ranzo.hzregister.json.Field;
 import ranzo.hzregister.json.FromJson;
 import ranzo.hzregister.json.JsonDownloader;
 import ranzo.hzregister.list.ListActivity;
 import ranzo.hzregister.model.User;
 import ranzo.hzregister.rules.RuleManager;
-import ranzo.hzregister.ui.UIElement;
+import ranzo.hzregister.ui.UIComponent;
 
 public class MainActivity extends 
 Activity implements JsonDownloader.OnTaskCompleted, ValidationListener {
@@ -68,7 +69,7 @@ Activity implements JsonDownloader.OnTaskCompleted, ValidationListener {
 	private void BuildUI(){
 		Factory factory = new Factory(this);
 		for (Field field: fields){
-			UIElement element = factory.buildObject(field);
+			UIComponent element = factory.buildObject(field);
 			if ( element != null){
 				View view = element.build();
 				linearLayout.addView(view);

@@ -1,49 +1,35 @@
 package ranzo.hzregister.ui;
-import android.app.ActionBar.LayoutParams;
+
 import android.content.Context;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
+
+import com.mobsandgeeks.saripaar.QuickRule;
+
 import ranzo.hzregister.R;
 import ranzo.hzregister.json.Field;
+import ranzo.hzregister.model.User;
+import ranzo.hzregister.rules.GenderRule;
 
 
-public class Gender extends UIElement {
+public class Gender implements UIComponent{
+
+	private SpinnerComponent component;
 
 	public Gender(Context context, Field field) {
-		super(context, field);
+		QuickRule rule = new GenderRule();
+		String[] items =
+				context.getResources().getStringArray(R.array.gender);
+		this.component = new SpinnerComponent(context,field,items,rule);
 	}
 
 	@Override
 	public View build() {
-		Spinner spinner = configure(buildSpinner());
-		addRules(spinner);
-		super.layout.addView(spinner);
-		return super.layout;
+		return this.component.get();
 	}
-	
+
 	@Override
-	protected void addRules(View view){
-		super.addRules(view);
+	public View build(User user) {
+		this.component.setText(user.getGender());
+		return build();
 	}
-	
-	private Spinner configure(Spinner spinner) {
-		super.configure(spinner);
-		return spinner;
-	}
-
-	private Spinner buildSpinner() {
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams
-				(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		
-		String[] stringArray = context.getResources().getStringArray(R.array.gender);
-		ArrayAdapter<String> adapter = new ArrayAdapter
-				<String>(context, android.R.layout.simple_spinner_dropdown_item, stringArray);
-		
-		Spinner spinner = new Spinner(context);
-		spinner.setAdapter(adapter);
-		return spinner;
-	}
-
 }

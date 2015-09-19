@@ -1,50 +1,34 @@
 package ranzo.hzregister.ui;
 
-import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.text.InputType;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
+
+import com.mobsandgeeks.saripaar.QuickRule;
 
 import ranzo.hzregister.json.Field;
-import ranzo.hzregister.rules.CPFRule;
-import ranzo.hzregister.rules.RuleManager;
+import ranzo.hzregister.model.User;
+import ranzo.hzregister.rules.BirthdayRule;
 
 
-public class Birthday extends UIElement {
+public class Birthday implements UIComponent {
+
+	private EditTextComponent component;
 
 	public Birthday(Context context, Field field) {
-		super(context, field);
+		QuickRule rule = new BirthdayRule();
+		int inputType = InputType.TYPE_DATETIME_VARIATION_DATE;
+		this.component = new EditTextComponent(context, field, inputType, rule);
 	}
 
 	@Override
 	public View build() {
-		EditText editText = buidEditText();
-		addRules(editText);
-		configure(editText);
-		addComponent(editText);
-		return getLayout();
+		return this.component.get();
 	}
-	
+
 	@Override
-	protected void addRules(View view){
-		super.addRules(view);
+	public View build(User user) {
+		this.component.setText(user.getBirthday());
+		return build();
 	}
-
-	private EditText configure(EditText editText) {
-		super.configure(editText);
-		editText.setInputType(InputType.TYPE_DATETIME_VARIATION_DATE);
-		return editText;
-	}
-
-	private EditText buidEditText() {
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams
-				(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-
-		EditText editText = new EditText(context);
-		editText.setLayoutParams(layoutParams);
-		return editText;
-	}
-	
 }

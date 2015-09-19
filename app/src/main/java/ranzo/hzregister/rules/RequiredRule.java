@@ -8,7 +8,7 @@ import android.widget.Spinner;
 import ranzo.hzregister.R;
 import com.mobsandgeeks.saripaar.QuickRule;
 
-public class NotEmptyRule extends QuickRule<View> {
+public class RequiredRule extends QuickRule<View> {
 
 	@Override
 	public boolean isValid(View view) {

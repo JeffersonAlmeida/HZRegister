@@ -1,14 +1,15 @@
 package ranzo.hzregister.rules;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
 
-import ranzo.hzregister.R;
 import com.mobsandgeeks.saripaar.QuickRule;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import ranzo.hzregister.R;
 
 public class EmailRule extends QuickRule<View> {
 
