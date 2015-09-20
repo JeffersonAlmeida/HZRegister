@@ -1,4 +1,4 @@
-package ranzo.hzregister.list;
+package ranzo.hzregister.screens;
 
 import android.content.Context;
 import android.view.LayoutInflater;

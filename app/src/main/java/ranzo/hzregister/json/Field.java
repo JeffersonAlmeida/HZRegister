@@ -1,8 +1,9 @@
 package ranzo.hzregister.json;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Field {
+public class Field implements Serializable{
 
     private long id;
 	private String name;

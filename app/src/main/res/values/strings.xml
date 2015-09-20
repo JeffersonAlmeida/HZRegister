@@ -18,6 +18,7 @@
     <string name="invalid">Invalid</string>
     <string name="title_activity_list">ListActivity</string>
     <string name="dialog_message">Loading</string>
+    <string name="title_activity_edit">EditActivity</string>
 
 
 </resources>

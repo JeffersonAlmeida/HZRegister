@@ -1,6 +1,8 @@
 package ranzo.hzregister.model;
 
-public final class User {
+import java.io.Serializable;
+
+public final class User implements Serializable {
 	
 	private Long id;
 	private String fullName;
@@ -52,7 +54,43 @@ public final class User {
 	public String getState() {
 		return state;
 	}
-	
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
 	@Override
 	public String toString() {
 		return getFullName();
