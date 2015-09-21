@@ -1,10 +1,10 @@
 package ranzo.hzregister.json;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -13,10 +13,11 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
+
+import ranzo.hzregister.R;
 
 
 public class JsonDownloader extends AsyncTask<String, String, String> {
@@ -26,9 +27,13 @@ public class JsonDownloader extends AsyncTask<String, String, String> {
 	private OnTaskCompleted listener;
 	private ProgressDialog progressDialog;
 	
-	public JsonDownloader(ProgressDialog progressDialog, OnTaskCompleted listener ){
+	public JsonDownloader(Context context, OnTaskCompleted listener ){
 		this.listener = listener;
-		this.progressDialog = progressDialog;
+		this.progressDialog = new ProgressDialog(context);
+		progressDialog.setIndeterminate(false);
+		progressDialog.setCancelable(false);
+		String msg = context.getResources().getString(R.string.dialog_message);
+		progressDialog.setMessage(msg);
 	}
 	
 	@Override
@@ -78,10 +83,10 @@ public class JsonDownloader extends AsyncTask<String, String, String> {
 				progressDialog.dismiss();
 			}
 		});
-		this.listener.onTaskCompleted(json);
+		this.listener.onJsonDownloaded(json);
 	}
 	
 	public interface OnTaskCompleted {
-		public void onTaskCompleted(String json);
+		public void onJsonDownloaded(String json);
 	}
 }

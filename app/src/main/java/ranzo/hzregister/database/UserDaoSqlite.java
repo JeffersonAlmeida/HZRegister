@@ -1,14 +1,11 @@
 package ranzo.hzregister.database;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
+import java.util.ArrayList;
+import java.util.List;
 import ranzo.hzregister.model.User;
-
 
 public class UserDaoSqlite implements UserDao {
 
@@ -43,7 +40,7 @@ public class UserDaoSqlite implements UserDao {
 	}
 	
 	@Override
-	public long inserir(User user) {
+	public long insert(User user) {
 		ContentValues values = new ContentValues();
 		values.put(COLUMN_ID, user.getId()); 
 		values.put(COLUMN_FULL_NAME, user.getFullName());
@@ -59,7 +56,7 @@ public class UserDaoSqlite implements UserDao {
 	}
 
 	@Override
-	public void editar(User user) {
+	public void edit(User user) {
 		if ( user != null && user.getId() != null && user.getId() > 0 ) {
 			ContentValues newValues = new ContentValues();
 			newValues.put(COLUMN_ID, user.getId()); 
@@ -77,7 +74,7 @@ public class UserDaoSqlite implements UserDao {
 	}
 
 	@Override
-	public void remover(User user) {
+	public void remove(User user) {
 		if ( user != null && user.getId() != null ) {
 			SQLiteDatabase db = helper.getWritableDatabase();
 			db.delete(TABLE_USER, COLUMN_ID + "=" + user.getId(), null);
@@ -85,7 +82,7 @@ public class UserDaoSqlite implements UserDao {
 	}
 
 	@Override
-	public List<User> listar() {
+	public List<User> list() {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_USER, null, null, null, null, null, null);
 		return buildUsers(cursor);
@@ -121,7 +118,7 @@ public class UserDaoSqlite implements UserDao {
 	}
 
 	@Override
-	public User carregar(Long id) {
+	public User load(Long id) {
 		if ( id != null ) {
 			SQLiteDatabase db = helper.getReadableDatabase();
 			Cursor cursor = db.query(TABLE_USER, null ,

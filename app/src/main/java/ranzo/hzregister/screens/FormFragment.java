@@ -63,7 +63,6 @@ public class FormFragment extends Fragment
         validator = new Validator(this);
         validator.setValidationListener(this);
         RuleManager.initialize(validator);
-
     }
 
     @Override
@@ -87,8 +86,8 @@ public class FormFragment extends Fragment
     @Override
     public void onSaveInstanceState(Bundle outState) {
         Log.i("onSaveInstance", "FormFragment");
-        User user = this.getUserFromValues();
-        outState.putSerializable("user", this.user);
+        User userFromValues = this.getUserFromValues();
+        outState.putSerializable("user", userFromValues);
         super.onSaveInstanceState(outState);
     }
 
@@ -154,8 +153,14 @@ public class FormFragment extends Fragment
         String birthday = getContent("birthday");
         String state = getContent("state");
 
-        return new User.Builder().fullName(name).email(email).cpf(cpf).
-                phone(phone).password(password).gender(gender).birthday(birthday).state(state).build();
+        User user = new User.Builder().fullName(name).email(email).cpf(cpf).
+                phone(phone).password(password).gender(gender).
+                birthday(birthday).state(state).build();
+
+        if ( this.user != null )
+            user.setId(this.user.getId());
+
+        return user;
 
     }
 

@@ -1,9 +1,7 @@
 package ranzo.hzregister.database;
 
 import android.content.Context;
-
 import ranzo.hzregister.application.MyApplication;
-
 
 public class DataBase {
 
@@ -12,8 +10,16 @@ public class DataBase {
 	
 	private UserDao userDao;
 	private UserDBOpenHelper helper;
-	
-	public DataBase() {
+
+	private static DataBase instance;
+
+	public static synchronized DataBase getInstance (){
+		if ( instance == null )
+			instance = new DataBase();
+		return instance;
+	}
+
+	private DataBase() {
 		Context appContext = MyApplication.getAppContext();
 		this.helper = new UserDBOpenHelper
 				(DATABASE_NAME, DATABASE_VERSION, appContext);

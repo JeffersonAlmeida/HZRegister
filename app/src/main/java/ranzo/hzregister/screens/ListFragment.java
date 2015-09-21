@@ -29,14 +29,12 @@ import ranzo.hzregister.model.User;
  * interface.
  */
 public class ListFragment extends Fragment
-        implements AbsListView.OnItemClickListener {
+implements AbsListView.OnItemClickListener {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "fields";
+    private static final String ARG_PARAM = "fields";
 
     private Fields fields;
     private List<User> users;
-
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -53,7 +51,7 @@ public class ListFragment extends Fragment
     public static ListFragment newInstance(Fields fields) {
         ListFragment fragment = new ListFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1, fields);
+        args.putSerializable(ARG_PARAM, fields);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,16 +66,13 @@ public class ListFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            this.fields = (Fields) getArguments().getSerializable(ARG_PARAM1);
-        }
+        if (getArguments() != null)
+            this.fields = (Fields) getArguments().getSerializable(ARG_PARAM);
         this.users = getUsers();
     }
 
     public List<User> getUsers(){
-        DataBase dataBase = new DataBase();
-        return dataBase.getUserDao().listar();
+        return DataBase.getInstance().getUserDao().list();
     }
 
     @Override

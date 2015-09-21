@@ -1,7 +1,5 @@
 package ranzo.hzregister.screens;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -50,24 +47,27 @@ public class TabActivity extends ActionBarActivity
     protected void onCreate(Bundle saved) {
         super.onCreate(saved);
         setContentView(R.layout.activity_tab);
-        Context context = TabActivity.this;
-        ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(false);
-        String msg = context.getResources().getString(R.string.dialog_message);
-        progressDialog.setMessage(msg);
-
         if ( saved != null ){
-            this.fields = (Fields) saved.getSerializable("fields");
+            recreateObjects(saved);
             buildUserInterface();
         }else {
-            JsonDownloader download = new JsonDownloader(progressDialog, this);
-            download.execute();
+            downloadJson();
         }
     }
 
+    private void downloadJson() {
+        JsonDownloader download = new JsonDownloader(TabActivity.this, this);
+        download.execute();
+    }
+
+    private void recreateObjects(Bundle saved) {
+        this.fields = (Fields) saved.getSerializable("fields");
+        this.listFragment = (ListFragment)
+                getSupportFragmentManager().getFragment(saved, "fragment");
+    }
+
     @Override
-    public void onTaskCompleted(final String json) {
+    public void onJsonDownloaded(final String json) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -83,8 +83,8 @@ public class TabActivity extends ActionBarActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        Log.i("onSaveInstance", "TabActivity");
         outState.putSerializable("fields", this.fields);
+        getSupportFragmentManager().putFragment(outState, "fragment", this.listFragment);
         super.onSaveInstanceState(outState);
     }
 
@@ -141,21 +141,27 @@ public class TabActivity extends ActionBarActivity
     @Override
     public void onValidationSucceeded(User user) {
         save(user);
-        Toast.makeText(this, "User Saved!", Toast.LENGTH_LONG).show();
+        notifyDataChanged();
+        goToUsersListTab();
+    }
+
+    private void notifyDataChanged() {
+        Toast.makeText(this, "User Saved!", Toast.LENGTH_SHORT).show();
+        this.listFragment.dataChanged();
+    }
+
+    private void goToUsersListTab() {
+        mViewPager.setCurrentItem(1);
     }
 
     private void save(User user) {
-        DataBase db = new DataBase();
-        UserDao userDao = db.getUserDao();
-        userDao.inserir(user);
-        this.listFragment.dataChanged();
+        UserDao userDao = DataBase.getInstance().getUserDao();
+        userDao.insert(user);
     }
 
     @Override
     public void onClickItem(User user) {
-        Toast.makeText(this, "Click!", Toast.LENGTH_SHORT).show();
         startEditIntent(user);
-
     }
 
     private void startEditIntent(User user) {
@@ -167,16 +173,12 @@ public class TabActivity extends ActionBarActivity
         startActivity(intent);
     }
 
-
-    public void removeUser (User user){
-        DataBase db = new DataBase();
-        UserDao userDao = db.getUserDao();
+    public void removeUser(User user){
+        UserDao userDao = DataBase.getInstance().getUserDao();
         listFragment.removeUser(user);
-        userDao.remover(user);
+        userDao.remove(user);
         Toast.makeText(this, "Removed!", Toast.LENGTH_LONG).show();
     }
-
-
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

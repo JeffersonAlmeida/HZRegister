@@ -65,14 +65,4 @@ public class Field implements Serializable{
 	public List<String> getCombo() {
 		return combo;
 	}
-
-	@Override
-	public String toString() {
-		return "Field [id=" + id + ", name=" + name + ", jsonName=" + jsonName
-				+ ", type=" + type + ", validation=" + validation
-				+ ", mandatory=" + mandatory + ", isJsonData=" + isJsonData
-				+ ", maxSize=" + maxSize + ", minSize=" + minSize
-				+ ", editProfile=" + editProfile + ", mask=" + mask
-				+ ", combo=" + combo + "]";
-	}
 }

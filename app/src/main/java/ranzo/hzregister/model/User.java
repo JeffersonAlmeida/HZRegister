@@ -96,12 +96,6 @@ public final class User implements Serializable {
 		return getFullName();
 	}
 	
-	public String toStr() {
-		return "User [id=" + id + ", fullName=" + fullName + ", email=" + email
-				+ ", cpf=" + cpf + ", phone=" + phone + ", password="
-				+ password + ", gender=" + gender + ", birthday=" + birthday
-				+ ", State=" + state + "]";
-	}
 	public static class Builder {
 		
 		private Long id;
