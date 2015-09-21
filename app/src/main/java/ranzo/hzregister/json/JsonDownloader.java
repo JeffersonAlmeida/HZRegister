@@ -1,8 +1,9 @@
 package ranzo.hzregister.json;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -17,31 +18,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
-import ranzo.hzregister.R;
-
 
 public class JsonDownloader extends AsyncTask<String, String, String> {
 
 	private final String URL = "https://enterprise.hanzo.com.br/contents/8/fields.json";
 	
 	private OnTaskCompleted listener;
-	private Context context;
 	private ProgressDialog progressDialog;
 	
-	public JsonDownloader(Context context, OnTaskCompleted listener ){
+	public JsonDownloader(ProgressDialog progressDialog, OnTaskCompleted listener ){
 		this.listener = listener;
-		this.context = context;
+		this.progressDialog = progressDialog;
 	}
 	
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		progressDialog = new ProgressDialog(context);
-		progressDialog.setIndeterminate(false);
-		progressDialog.setCancelable(false);
-		String msg = context.getResources().getString(R.string.dialog_message);
-		progressDialog.setMessage(msg);
-		progressDialog.show();
+		Handler handler = new Handler(Looper.getMainLooper());
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				progressDialog.show();
+			}
+		});
+
 	}
 	
 	@Override
@@ -67,11 +67,17 @@ public class JsonDownloader extends AsyncTask<String, String, String> {
 		}
 		return json;
 	}
-	
+
 	@Override
 	protected void onPostExecute(String json) {
 		super.onPostExecute(json);
-		progressDialog.dismiss();
+		Handler handler = new Handler(Looper.getMainLooper());
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				progressDialog.dismiss();
+			}
+		});
 		this.listener.onTaskCompleted(json);
 	}
 	

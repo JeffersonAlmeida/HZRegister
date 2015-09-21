@@ -1,7 +1,6 @@
 package ranzo.hzregister.screens;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -43,12 +42,15 @@ Activity implements JsonDownloader.OnTaskCompleted,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
 		ButterKnife.bind(this);
 		validator = new Validator(this);
 		validator.setValidationListener(this);
 		RuleManager.initialize(validator);
+		/*
 		JsonDownloader download = new JsonDownloader(MainActivity.this, this);
 		download.execute();
+		*/
 	}
 
 	@Override
@@ -64,16 +66,14 @@ Activity implements JsonDownloader.OnTaskCompleted,
 	private void convertJson(String json) {
 		this.fields = new Fields(json);
 
+		/*
 		this.fragment = FormFragment.newInstance(this.fields, null);
 		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.content_fragment, fragment);
 		fragmentTransaction.commit();
+		*/
 
 	}
-
-    @Override
-    public void fragmentCreated() {
-    }
 
     @OnClick(R.id.button)
     public void submit(View view) {
@@ -117,4 +117,8 @@ Activity implements JsonDownloader.OnTaskCompleted,
 	}
 
 
+	@Override
+	public void onValidationSucceeded(User user) {
+
+	}
 }

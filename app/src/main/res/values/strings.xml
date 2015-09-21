@@ -19,6 +19,10 @@
     <string name="title_activity_list">ListActivity</string>
     <string name="dialog_message">Loading</string>
     <string name="title_activity_edit">EditActivity</string>
+    <string name="title_activity_tab">TabActivity</string>
+
+    <string name="register_user">Register</string>
+    <string name="users_list">Users</string>
 
 
 </resources>
