@@ -4,7 +4,6 @@ import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,8 @@ import ranzo.hzregister.json.Fields;
 import ranzo.hzregister.model.User;
 import ranzo.hzregister.rules.RuleManager;
 import ranzo.hzregister.ui.UIComponent;
+
+import static ranzo.hzregister.util.JsonConstantsNames.*;
 
 public class FormFragment extends Fragment
         implements Validator.ValidationListener{
@@ -69,23 +70,12 @@ public class FormFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup root, Bundle saved) {
         View layout = inflater.inflate(R.layout.form_fragment, root, false);
         ButterKnife.bind(this, layout);
-
-        Log.i("onCreateView", "onCreateView");
-
-        if ( getActivity() instanceof EditActivity ) {
-            Log.i("instanceOf", "instanceOf EditActivity ");
-        }else{
-            Log.i("instanceOf", "instanceOf Alguma outra porra ");
-        }
-
         buildUI();
-
         return layout;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Log.i("onSaveInstance", "FormFragment");
         User userFromValues = this.getUserFromValues();
         outState.putSerializable("user", userFromValues);
         super.onSaveInstanceState(outState);
@@ -97,7 +87,6 @@ public class FormFragment extends Fragment
     }
 
     private void buildUI(){
-        Log.i("buildUI", "buildUI");
         Factory factory = new Factory(this.getActivity());
         for (Field field: fields.getList()){
             UIComponent element = factory.buildObject(field);
@@ -110,7 +99,6 @@ public class FormFragment extends Fragment
         Button button = new Button(getActivity());
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams
                 (LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-
         button.setLayoutParams(layoutParams);
         button.setText("Submit");
         button.setOnClickListener(new SubmitListener());
@@ -137,21 +125,20 @@ public class FormFragment extends Fragment
     private class SubmitListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            //validator.validate();
-            onValidationSucceeded();
+            validator.validate();
         }
     }
 
     public User getUserFromValues(){
 
-        String name = getContent("name"); // FIXME: Constants names
-        String email = getContent("email");
-        String cpf = getContent("cpf");
-        String phone = getContent("phone");
-        String password = getContent("password");
-        String gender = getContent("gender");
-        String birthday = getContent("birthday");
-        String state = getContent("state");
+        String name = getContent(NAME);
+        String email = getContent(EMAIL);
+        String cpf = getContent(CPF);
+        String phone = getContent(PHONE);
+        String password = getContent(PASSWORD);
+        String gender = getContent(GENDER);
+        String birthday = getContent(BIRTHDAY);
+        String state = getContent(STATE);
 
         User user = new User.Builder().fullName(name).email(email).cpf(cpf).
                 phone(phone).password(password).gender(gender).

@@ -3,14 +3,12 @@ package ranzo.hzregister.screens;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class ListFragment extends Fragment
 implements AbsListView.OnItemClickListener {
 
     private static final String ARG_PARAM = "fields";
-
+    private boolean userRemoved = false;
     private Fields fields;
     private List<User> users;
     private OnFragmentInteractionListener mListener;
@@ -87,15 +85,20 @@ implements AbsListView.OnItemClickListener {
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), ""+ users.get(position), Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
+        mListView.setOnItemLongClickListener(new onItemLongClick());
 
         return view;
+    }
+
+    private class onItemLongClick implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            if (null != mListener) {
+                userRemoved = true;
+                mListener.onLongClickItem(users.get(position));
+            }
+            return false;
+        }
     }
 
     @Override
@@ -118,17 +121,17 @@ implements AbsListView.OnItemClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("onResume", "OnResume");
         dataChanged();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
+        if (null != mListener && !userRemoved) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             mListener.onClickItem(users.get(position));
         }
+        userRemoved = false;
     }
 
     /**
@@ -164,6 +167,7 @@ implements AbsListView.OnItemClickListener {
      */
     public interface OnFragmentInteractionListener {
         public void onClickItem(User user);
+        public void onLongClickItem(User user);
     }
 
 }

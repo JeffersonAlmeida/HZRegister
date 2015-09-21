@@ -1,4 +1,4 @@
-package ranzo.hzregister.factory;
+package ranzo.hzregister.util;
 
 public class JsonConstantsNames {
 

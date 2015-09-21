@@ -11,7 +11,7 @@ import ranzo.hzregister.ui.Password;
 import ranzo.hzregister.ui.Phone;
 import ranzo.hzregister.ui.State;
 import ranzo.hzregister.ui.UIComponent;
-import static ranzo.hzregister.factory.JsonConstantsNames.*;
+import static ranzo.hzregister.util.JsonConstantsNames.*;
 
 public class Factory {
 	

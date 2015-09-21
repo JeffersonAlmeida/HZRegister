@@ -164,6 +164,17 @@ public class TabActivity extends ActionBarActivity
         startEditIntent(user);
     }
 
+    @Override
+    public void onLongClickItem(User user) {
+        removeUser(user);
+        updateUsersList(user);
+    }
+
+    private void updateUsersList(User user) {
+        listFragment.removeUser(user);
+        Toast.makeText(this, "User Removed!", Toast.LENGTH_LONG).show();
+    }
+
     private void startEditIntent(User user) {
         Intent intent = new Intent(this, EditActivity.class);
         Bundle args = new Bundle();
@@ -175,9 +186,7 @@ public class TabActivity extends ActionBarActivity
 
     public void removeUser(User user){
         UserDao userDao = DataBase.getInstance().getUserDao();
-        listFragment.removeUser(user);
         userDao.remove(user);
-        Toast.makeText(this, "Removed!", Toast.LENGTH_LONG).show();
     }
 
     /**
