@@ -2,7 +2,7 @@ package ranzo.hzregister.model;
 
 import java.io.Serializable;
 
-public final class User implements Serializable {
+public class User implements Serializable {
 	
 	private Long id;
 	private String fullName;
@@ -13,7 +13,13 @@ public final class User implements Serializable {
 	private String gender;
 	private String birthday;
 	private String state;
-	
+
+    protected User (){}
+
+    public static User newNull(){
+        return new NullUser();
+    }
+
 	private User ( Builder builder ) {
 		this.id = builder.id;
 		this.fullName = builder.fullName;

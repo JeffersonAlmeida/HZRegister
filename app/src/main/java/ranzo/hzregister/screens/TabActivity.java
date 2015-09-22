@@ -205,7 +205,7 @@ public class TabActivity extends ActionBarActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             if ( position == 0 )
-                return FormFragment.newInstance(fields,null);
+                return FormFragment.newInstance(fields, User.newNull());
 
             return listFragment = ListFragment.newInstance(fields);
         }

@@ -125,7 +125,8 @@ public class FormFragment extends Fragment
     private class SubmitListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            validator.validate();
+           // validator.validate();
+            onValidationSucceeded();
         }
     }
 
@@ -140,14 +141,10 @@ public class FormFragment extends Fragment
         String birthday = getContent(BIRTHDAY);
         String state = getContent(STATE);
 
-        User user = new User.Builder().fullName(name).email(email).cpf(cpf).
-                phone(phone).password(password).gender(gender).
-                birthday(birthday).state(state).build();
-
-        if ( this.user != null )
-            user.setId(this.user.getId());
-
-        return user;
+        return new User.Builder().id(this.user.getId()).
+                fullName(name).email(email).cpf(cpf).
+                phone(phone).password(password).
+                gender(gender).birthday(birthday).state(state).build();
 
     }
 
