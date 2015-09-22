@@ -204,10 +204,16 @@ public class TabActivity extends ActionBarActivity
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            if ( position == 0 )
-                return FormFragment.newInstance(fields, User.newNull());
+            Tab tab = Tab.get(position);
+            switch ( tab ){
+                case REGISTER_FORM:
+                    return FormFragment.newInstance(fields, User.newNull());
+                case USER_LIST:
+                    return listFragment = ListFragment.newInstance(fields);
+                default:
+                    return null;
+            }
 
-            return listFragment = ListFragment.newInstance(fields);
         }
 
         @Override
@@ -218,10 +224,11 @@ public class TabActivity extends ActionBarActivity
         @Override
         public CharSequence getPageTitle(int position) {
             Locale l = Locale.getDefault();
-            switch (position) {
-                case 0:
+            Tab tab = Tab.get(position);
+            switch ( tab ) {
+                case REGISTER_FORM:
                     return getString(R.string.register_user).toUpperCase(l);
-                case 1:
+                case USER_LIST:
                     return getString(R.string.users_list).toUpperCase(l);
             }
             return null;
